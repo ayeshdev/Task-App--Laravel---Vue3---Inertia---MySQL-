@@ -38,7 +38,7 @@ const tasks = defineProps({
 const arr = Object.values(tasks.tasks[0]);
 
 const form = useForm({
-    id:'',
+    id: '',
     name: '',
     date: '',
     description: ''
@@ -61,6 +61,15 @@ const updateData = () => {
     form.post(route('task.update', {
 
     }));
+};
+
+const deleteTask = (task) => {
+    form.id = task.id;
+    form.post(route('task.delete', {
+        
+    }));
+
+    location.reload();
 };
 
 
@@ -108,7 +117,7 @@ const updateData = () => {
                         <td class="px-6 py-4 space-x-1">
                             <button class="bg-green-600 text-white py-2 px-3 rounded"
                                 @click="updateTask(task)">Update</button>
-                            <button class="bg-red-600 text-white py-2 px-3 rounded">Delete</button>
+                            <button class="bg-red-600 text-white py-2 px-3 rounded" @click="deleteTask(task)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -150,7 +159,8 @@ const updateData = () => {
                             </div>
 
                             <div>
-                                <button class="w-full bg-purple-300 p-2 rounded-lg" type="submit" @click="updateData">{{ btn_name }}</button>
+                                <button class="w-full bg-purple-300 p-2 rounded-lg" type="submit" @click="updateData">{{
+                                    btn_name }}</button>
                             </div>
                         </div>
                     </form>

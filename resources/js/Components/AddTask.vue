@@ -41,10 +41,6 @@ const emits = defineEmits([
 
 const saveData = () => {
 
-    alert(name.value);
-    alert(date.value);
-    alert(description.value);
-
     form.name = name.value
     form.date = date.value
     form.description = description.value
