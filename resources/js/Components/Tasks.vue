@@ -1,10 +1,9 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref,computed } from 'vue';
 import Dashboard from '../Pages/Dashboard.vue';
-import { FwbButton, FwbModal } from 'flowbite-vue'
+import { FwbButton, FwbModal, FwbInput } from 'flowbite-vue'
 import AddTask from './AddTask.vue';
-
 
 // Start Modal
 
@@ -17,6 +16,9 @@ function showModal() {
     isShowModal.value = true
 }
 // End Modal
+
+
+
 
 
 const tasks = defineProps({
@@ -37,8 +39,28 @@ const tasks = defineProps({
 
 const arr = Object.values(tasks.tasks[0]);
 
+
+
+//start search
+
+const searchValue = ref('');
+
+const filteredNames = computed(() =>
+
+console.log(searchValue),
+
+//   arr.filter((n) =>
+//     n.toLowerCase().startsWith(searchValue.value.toLowerCase())
+//   )
+)
+
+
+
+//end search
+
+
 const form = useForm({
-    id:'',
+    id: '',
     name: '',
     date: '',
     description: ''
@@ -63,12 +85,30 @@ const updateData = () => {
     }));
 };
 
+const deleteTask = (task) => {
+    form.id = task.id;
+    form.post(route('task.delete', {
+
+    }));
+
+    location.reload();
+};
+
 
 
 </script>
 
 <template>
     <div class="col-span-2">
+
+
+        <!-- search -->
+        <div class="m-3 flex gap-4">
+            <fwb-input v-model="searchValue" class="w-full" placeholder="Search..." />
+            <button class="bg-green-300 px-5 py-2 rounded" @click="filteredNames">Search</button>
+        </div>
+
+
         <div class="relative overflow-x-auto overflow-y-scroll h-[500px] shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-white dark:text-gray-400">
@@ -92,7 +132,7 @@ const updateData = () => {
                 </thead>
                 <tbody class="overflow-y-scroll">
 
-                    <tr v-for="task in arr" class="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
+                    <tr v-for="task in arr || filteredNames" class="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">
                             {{ task.name }}
                         </th>
@@ -108,7 +148,8 @@ const updateData = () => {
                         <td class="px-6 py-4 space-x-1">
                             <button class="bg-green-600 text-white py-2 px-3 rounded"
                                 @click="updateTask(task)">Update</button>
-                            <button class="bg-red-600 text-white py-2 px-3 rounded">Delete</button>
+                            <button class="bg-red-600 text-white py-2 px-3 rounded"
+                                @click="deleteTask(task)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -150,7 +191,8 @@ const updateData = () => {
                             </div>
 
                             <div>
-                                <button class="w-full bg-purple-300 p-2 rounded-lg" type="submit" @click="updateData">{{ btn_name }}</button>
+                                <button class="w-full bg-purple-300 p-2 rounded-lg" type="submit" @click="updateData">{{
+                                    btn_name }}</button>
                             </div>
                         </div>
                     </form>

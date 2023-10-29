@@ -10,6 +10,7 @@ const tasks = defineProps({
 </script>
 
 <template>
+
     <div class="grid grid-cols-3 gap-5 mt-5 mx-2">
         <div class="col-span-1">
             <div class="p-5 space-y-3 rounded-lg bg-green-100 shadow-md">
@@ -49,7 +50,6 @@ const tasks = defineProps({
         </div>
 
         <div class="col-span-2">
-
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-white dark:text-gray-400">
