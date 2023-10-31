@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import { ref,computed } from 'vue';
+import { ref, computed } from 'vue';
 import Dashboard from '../Pages/Dashboard.vue';
 import { FwbButton, FwbModal, FwbInput } from 'flowbite-vue'
 import AddTask from './AddTask.vue';
@@ -37,24 +37,21 @@ const tasks = defineProps({
 
 })
 
-const arr = Object.values(tasks.tasks[0]);
-
-
+let arr = Object.values(tasks.tasks[0]);
 
 //start search
 
-const searchValue = ref('');
+const searchValue = ref('')
 
-const filteredNames = computed(() =>
+const filteredNames = computed(() => {
 
-console.log(searchValue),
+    const data = arr.filter((item) =>
+        item.name.toLowerCase().includes(searchValue.value.toLowerCase())
+    )
 
-//   arr.filter((n) =>
-//     n.toLowerCase().startsWith(searchValue.value.toLowerCase())
-//   )
+    return data;
+}
 )
-
-
 
 //end search
 
@@ -79,7 +76,6 @@ function updateTask(task) {
 }
 
 const updateData = () => {
-
     form.post(route('task.update', {
 
     }));
@@ -101,11 +97,10 @@ const deleteTask = (task) => {
 <template>
     <div class="col-span-2">
 
-
         <!-- search -->
         <div class="m-3 flex gap-4">
             <fwb-input v-model="searchValue" class="w-full" placeholder="Search..." />
-            <button class="bg-green-300 px-5 py-2 rounded" @click="filteredNames">Search</button>
+            <button class="bg-green-300 px-5 py-2 rounded">Search</button>
         </div>
 
 
@@ -132,7 +127,8 @@ const deleteTask = (task) => {
                 </thead>
                 <tbody class="overflow-y-scroll">
 
-                    <tr v-for="task in arr || filteredNames" class="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
+                    <tr v-for="task in filteredNames"
+                        class="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">
                             {{ task.name }}
                         </th>
